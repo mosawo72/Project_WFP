@@ -17,36 +17,51 @@
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="member_id" class="form-label fw-semibold">Member <span class="text-danger">*</span></label>
-                    <select class="form-select" id="member_id" name="member_id" required>
+                    <select class="form-select @error('member_id') is-invalid @enderror" id="member_id" name="member_id" required>
                         @foreach($members as $member)
                             <option value="{{ $member->id }}" {{ old('member_id', $consultation->member_id) == $member->id ? 'selected' : '' }}>{{ $member->name }}</option>
                         @endforeach
                     </select>
+                    @error('member_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="doctor_id" class="form-label fw-semibold">Dokter <span class="text-danger">*</span></label>
-                    <select class="form-select" id="doctor_id" name="doctor_id" required>
+                    <select class="form-select @error('doctor_id') is-invalid @enderror" id="doctor_id" name="doctor_id" required>
                         @foreach($doctors as $doctor)
                             <option value="{{ $doctor->id }}" {{ old('doctor_id', $consultation->doctor_id) == $doctor->id ? 'selected' : '' }}>{{ $doctor->user->name }} - {{ $doctor->specialization }}</option>
                         @endforeach
                     </select>
+                    @error('doctor_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="col-md-12 mb-3">
                     <label for="subject" class="form-label fw-semibold">Subjek Konsultasi <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="subject" name="subject" value="{{ old('subject', $consultation->subject) }}" required>
+                    <input type="text" class="form-control @error('subject') is-invalid @enderror" id="subject" name="subject" value="{{ old('subject', $consultation->subject) }}" required>
+                    @error('subject')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="status" class="form-label fw-semibold">Status <span class="text-danger">*</span></label>
-                    <select class="form-select" id="status" name="status" required>
+                    <select class="form-select @error('status') is-invalid @enderror" id="status" name="status" required>
                         <option value="pending" {{ old('status', $consultation->status) == 'pending' ? 'selected' : '' }}>Pending</option>
                         <option value="active" {{ old('status', $consultation->status) == 'active' ? 'selected' : '' }}>Active</option>
                         <option value="completed" {{ old('status', $consultation->status) == 'completed' ? 'selected' : '' }}>Completed</option>
                         <option value="cancelled" {{ old('status', $consultation->status) == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                     </select>
+                    @error('status')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="scheduled_at" class="form-label fw-semibold">Jadwal</label>
-                    <input type="datetime-local" class="form-control" id="scheduled_at" name="scheduled_at" value="{{ old('scheduled_at', $consultation->scheduled_at ? $consultation->scheduled_at->format('Y-m-d\TH:i') : '') }}">
+                    <input type="datetime-local" class="form-control @error('scheduled_at') is-invalid @enderror" id="scheduled_at" name="scheduled_at" value="{{ old('scheduled_at', $consultation->scheduled_at ? $consultation->scheduled_at->format('Y-m-d\TH:i') : '') }}">
+                    @error('scheduled_at')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
             <div class="d-flex gap-2 mt-2">

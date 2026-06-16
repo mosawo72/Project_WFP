@@ -6,6 +6,7 @@ use App\Models\Consultation;
 use App\Models\Doctor;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ConsultationController extends Controller
 {
@@ -14,7 +15,7 @@ class ConsultationController extends Controller
      */
     public function index()
     {
-        $consultations = Consultation::with(['member', 'doctor.user'])->latest()->get();
+        $consultations = Consultation::with(['member', 'doctor.user'])->latest()->paginate(15);
         return view('master.consultations.index', compact('consultations'));
     }
 
@@ -92,6 +93,8 @@ class ConsultationController extends Controller
      */
     public function destroy(Consultation $consultation)
     {
+        $this->authorize('delete-permission', Auth::user());
+
         $consultation->delete();
         return redirect()->route('consultations.index')->with('success', 'Konsultasi berhasil dihapus!');
     }

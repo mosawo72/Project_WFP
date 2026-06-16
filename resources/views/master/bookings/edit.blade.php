@@ -17,40 +17,58 @@
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="member_id" class="form-label fw-semibold">Member <span class="text-danger">*</span></label>
-                    <select class="form-select" id="member_id" name="member_id" required>
+                    <select class="form-select @error('member_id') is-invalid @enderror" id="member_id" name="member_id" required>
                         @foreach($members as $member)
                             <option value="{{ $member->id }}" {{ old('member_id', $booking->member_id) == $member->id ? 'selected' : '' }}>{{ $member->name }}</option>
                         @endforeach
                     </select>
+                    @error('member_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="doctor_id" class="form-label fw-semibold">Dokter <span class="text-danger">*</span></label>
-                    <select class="form-select" id="doctor_id" name="doctor_id" required>
+                    <select class="form-select @error('doctor_id') is-invalid @enderror" id="doctor_id" name="doctor_id" required>
                         @foreach($doctors as $doctor)
                             <option value="{{ $doctor->id }}" {{ old('doctor_id', $booking->doctor_id) == $doctor->id ? 'selected' : '' }}>{{ $doctor->user->name }} - {{ $doctor->specialization }}</option>
                         @endforeach
                     </select>
+                    @error('doctor_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="booking_date" class="form-label fw-semibold">Tanggal <span class="text-danger">*</span></label>
-                    <input type="date" class="form-control" id="booking_date" name="booking_date" value="{{ old('booking_date', $booking->booking_date->format('Y-m-d')) }}" required>
+                    <input type="date" class="form-control @error('booking_date') is-invalid @enderror" id="booking_date" name="booking_date" value="{{ old('booking_date', $booking->booking_date->format('Y-m-d')) }}" required>
+                    @error('booking_date')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="booking_time" class="form-label fw-semibold">Jam <span class="text-danger">*</span></label>
-                    <input type="time" class="form-control" id="booking_time" name="booking_time" value="{{ old('booking_time', $booking->booking_time) }}" required>
+                    <input type="time" class="form-control @error('booking_time') is-invalid @enderror" id="booking_time" name="booking_time" value="{{ old('booking_time', $booking->booking_time) }}" required>
+                    @error('booking_time')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="status" class="form-label fw-semibold">Status <span class="text-danger">*</span></label>
-                    <select class="form-select" id="status" name="status" required>
+                    <select class="form-select @error('status') is-invalid @enderror" id="status" name="status" required>
                         <option value="pending" {{ old('status', $booking->status) == 'pending' ? 'selected' : '' }}>Pending</option>
                         <option value="confirmed" {{ old('status', $booking->status) == 'confirmed' ? 'selected' : '' }}>Confirmed</option>
                         <option value="cancelled" {{ old('status', $booking->status) == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                         <option value="completed" {{ old('status', $booking->status) == 'completed' ? 'selected' : '' }}>Completed</option>
                     </select>
+                    @error('status')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="col-md-12 mb-3">
                     <label for="notes" class="form-label fw-semibold">Catatan</label>
-                    <textarea class="form-control" id="notes" name="notes" rows="3">{{ old('notes', $booking->notes) }}</textarea>
+                    <textarea class="form-control @error('notes') is-invalid @enderror" id="notes" name="notes" rows="3">{{ old('notes', $booking->notes) }}</textarea>
+                    @error('notes')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
             <div class="d-flex gap-2 mt-2">

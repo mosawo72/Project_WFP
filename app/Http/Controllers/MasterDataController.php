@@ -21,6 +21,14 @@ class MasterDataController extends Controller
             'totalArticles' => Article::count(),
             'totalConsultations' => Consultation::count(),
             'totalBookings' => Booking::count(),
+
+            // Additional stats
+            'pendingBookings' => Booking::pending()->count(),
+            'activeConsultations' => Consultation::active()->count(),
+
+            // Recent data
+            'recentBookings' => Booking::with(['member', 'doctor.user'])->latest('booking_date')->take(5)->get(),
+            'recentConsultations' => Consultation::with(['member', 'doctor.user'])->latest()->take(5)->get(),
         ]);
     }
 

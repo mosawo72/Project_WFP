@@ -21,19 +21,31 @@
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="specialization" class="form-label fw-semibold">Spesialisasi <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="specialization" name="specialization" value="{{ old('specialization', $doctor->specialization) }}" required>
+                    <input type="text" class="form-control @error('specialization') is-invalid @enderror" id="specialization" name="specialization" value="{{ old('specialization', $doctor->specialization) }}" required>
+                    @error('specialization')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="experience_years" class="form-label fw-semibold">Pengalaman (tahun) <span class="text-danger">*</span></label>
-                    <input type="number" class="form-control" id="experience_years" name="experience_years" value="{{ old('experience_years', $doctor->experience_years) }}" required min="0">
+                    <input type="number" class="form-control @error('experience_years') is-invalid @enderror" id="experience_years" name="experience_years" value="{{ old('experience_years', $doctor->experience_years) }}" required min="0">
+                    @error('experience_years')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="schedule" class="form-label fw-semibold">Jadwal Praktik</label>
-                    <input type="text" class="form-control" id="schedule" name="schedule" value="{{ old('schedule', $doctor->schedule) }}">
+                    <input type="text" class="form-control @error('schedule') is-invalid @enderror" id="schedule" name="schedule" value="{{ old('schedule', $doctor->schedule) }}">
+                    @error('schedule')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="col-md-12 mb-3">
                     <label for="bio" class="form-label fw-semibold">Bio / Deskripsi</label>
-                    <textarea class="form-control" id="bio" name="bio" rows="3">{{ old('bio', $doctor->bio) }}</textarea>
+                    <textarea class="form-control @error('bio') is-invalid @enderror" id="bio" name="bio" rows="3">{{ old('bio', $doctor->bio) }}</textarea>
+                    @error('bio')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
             <div class="d-flex gap-2 mt-2">

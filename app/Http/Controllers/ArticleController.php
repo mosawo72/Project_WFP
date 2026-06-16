@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
@@ -13,7 +14,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::with('user')->latest()->get();
+        $articles = Article::with('user')->latest()->paginate(15);
         return view('master.articles.index', compact('articles'));
     }
 
@@ -88,6 +89,8 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
+        $this->authorize('delete-permission', Auth::user());
+
         $article->delete();
         return redirect()->route('articles.index')->with('success', 'Artikel berhasil dihapus!');
     }

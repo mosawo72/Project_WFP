@@ -1,0 +1,29 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MasterDataController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ConsultationController;
+use App\Http\Controllers\BookingController;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+*/
+
+// Dashboard
+Route::get('/', [MasterDataController::class, 'dashboard'])->name('dashboard');
+
+// Resource routes for all master data (CRUD)
+Route::resource('users', UserController::class);
+Route::resource('doctors', DoctorController::class);
+Route::resource('articles', ArticleController::class);
+Route::resource('consultations', ConsultationController::class);
+Route::resource('bookings', BookingController::class);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

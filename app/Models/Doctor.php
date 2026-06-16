@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,6 +17,10 @@ class Doctor extends Model
         'bio',
         'schedule',
     ];
+
+    // =========================================================================
+    // RELATIONSHIPS
+    // =========================================================================
 
     /**
      * Get the user that owns this doctor profile.
@@ -39,5 +44,19 @@ class Doctor extends Model
     public function bookings()
     {
         return $this->hasMany(Booking::class);
+    }
+
+    // =========================================================================
+    // ACCESSORS
+    // =========================================================================
+
+    /**
+     * Get the doctor's full display name with specialization.
+     */
+    protected function fullDisplayName(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->user?->name . ' - ' . $this->specialization,
+        );
     }
 }

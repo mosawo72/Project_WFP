@@ -16,31 +16,46 @@
             <div class="row">
                 <div class="col-md-8 mb-3">
                     <label for="title" class="form-label fw-semibold">Judul Artikel <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}" required>
+                    <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{ old('title') }}" required>
+                    @error('title')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="category" class="form-label fw-semibold">Kategori <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="category" name="category" value="{{ old('category') }}" required placeholder="contoh: Nutrisi, Olahraga">
+                    <input type="text" class="form-control @error('category') is-invalid @enderror" id="category" name="category" value="{{ old('category') }}" required placeholder="contoh: Nutrisi, Olahraga">
+                    @error('category')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="user_id" class="form-label fw-semibold">Penulis <span class="text-danger">*</span></label>
-                    <select class="form-select" id="user_id" name="user_id" required>
+                    <select class="form-select @error('user_id') is-invalid @enderror" id="user_id" name="user_id" required>
                         <option value="">-- Pilih Penulis --</option>
                         @foreach($admins as $admin)
                             <option value="{{ $admin->id }}" {{ old('user_id') == $admin->id ? 'selected' : '' }}>{{ $admin->name }}</option>
                         @endforeach
                     </select>
+                    @error('user_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="status" class="form-label fw-semibold">Status <span class="text-danger">*</span></label>
-                    <select class="form-select" id="status" name="status" required>
+                    <select class="form-select @error('status') is-invalid @enderror" id="status" name="status" required>
                         <option value="published" {{ old('status') == 'published' ? 'selected' : '' }}>Published</option>
                         <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>Draft</option>
                     </select>
+                    @error('status')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="col-md-12 mb-3">
                     <label for="content" class="form-label fw-semibold">Konten <span class="text-danger">*</span></label>
-                    <textarea class="form-control" id="content" name="content" rows="6" required>{{ old('content') }}</textarea>
+                    <textarea class="form-control @error('content') is-invalid @enderror" id="content" name="content" rows="6" required>{{ old('content') }}</textarea>
+                    @error('content')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
             <div class="d-flex gap-2 mt-2">

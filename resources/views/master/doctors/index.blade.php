@@ -17,52 +17,67 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h6><i class="fas fa-table me-2"></i>Tabel Dokter</h6>
-        <span class="badge bg-primary rounded-pill">{{ $doctors->count() }} data</span>
+        <span class="badge bg-primary rounded-pill">{{ $doctors->total() }} data</span>
     </div>
     <div class="card-body p-0">
-        <div class="table-responsive">
-            <table class="table" id="doctors-table">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama Dokter</th>
-                        <th>Spesialisasi</th>
-                        <th>Pengalaman</th>
-                        <th>Jadwal Praktik</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($doctors as $index => $doctor)
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>
-                            <div class="d-flex align-items-center gap-2">
-                                <div style="width:32px;height:32px;font-size:0.7rem;border-radius:50%;background:linear-gradient(135deg,#6366f1,#4f46e5);color:white;display:flex;align-items:center;justify-content:center;font-weight:600;">
-                                    {{ strtoupper(substr($doctor->user->name, 0, 1)) }}
+        @if($doctors->isEmpty())
+            <div class="text-center py-5">
+                <i class="fas fa-user-md fa-3x text-muted mb-3 d-block"></i>
+                <h6 class="text-muted">Belum ada data dokter</h6>
+                <p class="text-muted small">Klik tombol "Tambah Dokter" untuk menambahkan profil dokter baru</p>
+            </div>
+        @else
+            <div class="table-responsive">
+                <table class="table" id="doctors-table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Dokter</th>
+                            <th>Spesialisasi</th>
+                            <th>Pengalaman</th>
+                            <th>Jadwal Praktik</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($doctors as $index => $doctor)
+                        <tr>
+                            <td>{{ $doctors->firstItem() + $index }}</td>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div style="width:32px;height:32px;font-size:0.7rem;border-radius:50%;background:linear-gradient(135deg,#6366f1,#4f46e5);color:white;display:flex;align-items:center;justify-content:center;font-weight:600;">
+                                        {{ strtoupper(substr($doctor->user->name, 0, 1)) }}
+                                    </div>
+                                    <strong>{{ $doctor->user->name }}</strong>
                                 </div>
-                                <strong>{{ $doctor->user->name }}</strong>
-                            </div>
-                        </td>
-                        <td><span class="badge bg-light text-dark border">{{ $doctor->specialization }}</span></td>
-                        <td>{{ $doctor->experience_years }} tahun</td>
-                        <td><small class="text-muted">{{ $doctor->schedule }}</small></td>
-                        <td>
-                            <div class="d-flex gap-1">
-                                <a href="{{ route('doctors.show', $doctor) }}" class="btn btn-sm btn-outline-info" title="Detail"><i class="fas fa-eye"></i></a>
-                                <a href="{{ route('doctors.edit', $doctor) }}" class="btn btn-sm btn-outline-warning" title="Edit"><i class="fas fa-edit"></i></a>
-                                <form action="{{ route('doctors.destroy', $doctor) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus profil dokter ini?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus"><i class="fas fa-trash"></i></button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                            </td>
+                            <td><span class="badge bg-light text-dark border">{{ $doctor->specialization }}</span></td>
+                            <td>{{ $doctor->experience_years }} tahun</td>
+                            <td><small class="text-muted">{{ $doctor->schedule }}</small></td>
+                            <td>
+                                <div class="d-flex gap-1">
+                                    <a href="{{ route('doctors.show', $doctor) }}" class="btn btn-sm btn-outline-info" title="Detail"><i class="fas fa-eye"></i></a>
+                                    <a href="{{ route('doctors.edit', $doctor) }}" class="btn btn-sm btn-outline-warning" title="Edit"><i class="fas fa-edit"></i></a>
+                                    @can('delete-permission', Auth::user())
+                                    <form action="{{ route('doctors.destroy', $doctor) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus profil dokter ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus"><i class="fas fa-trash"></i></button>
+                                    </form>
+                                    @endcan
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
     </div>
+    @if($doctors->hasPages())
+        <div class="card-footer bg-white d-flex justify-content-center">
+            {{ $doctors->links() }}
+        </div>
+    @endif
 </div>
 @endsection

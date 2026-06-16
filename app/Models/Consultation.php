@@ -24,6 +24,10 @@ class Consultation extends Model
         ];
     }
 
+    // =========================================================================
+    // RELATIONSHIPS
+    // =========================================================================
+
     /**
      * Get the member who requested this consultation.
      */
@@ -46,5 +50,33 @@ class Consultation extends Model
     public function messages()
     {
         return $this->hasMany(ConsultationMessage::class);
+    }
+
+    // =========================================================================
+    // SCOPES
+    // =========================================================================
+
+    /**
+     * Scope a query to only include active consultations.
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+
+    /**
+     * Scope a query to only include pending consultations.
+     */
+    public function scopePending($query)
+    {
+        return $query->where('status', 'pending');
+    }
+
+    /**
+     * Scope a query to only include completed consultations.
+     */
+    public function scopeCompleted($query)
+    {
+        return $query->where('status', 'completed');
     }
 }

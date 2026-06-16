@@ -51,11 +51,75 @@ class User extends Authenticatable
         ];
     }
 
+    // =========================================================================
+    // RELATIONSHIPS
+    // =========================================================================
+
     /**
      * Get the doctor profile associated with this user.
      */
     public function doctor()
     {
         return $this->hasOne(Doctor::class);
+    }
+
+    /**
+     * Get the consultations where this user is the member.
+     */
+    public function consultations()
+    {
+        return $this->hasMany(Consultation::class, 'member_id');
+    }
+
+    /**
+     * Get the bookings where this user is the member.
+     */
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class, 'member_id');
+    }
+
+    /**
+     * Get the articles written by this user.
+     */
+    public function articles()
+    {
+        return $this->hasMany(Article::class);
+    }
+
+    /**
+     * Get the consultation messages sent by this user.
+     */
+    public function sentMessages()
+    {
+        return $this->hasMany(ConsultationMessage::class, 'sender_id');
+    }
+
+    // =========================================================================
+    // SCOPES
+    // =========================================================================
+
+    /**
+     * Scope a query to only include admin users.
+     */
+    public function scopeAdmin($query)
+    {
+        return $query->where('role', 'admin');
+    }
+
+    /**
+     * Scope a query to only include dokter users.
+     */
+    public function scopeDokter($query)
+    {
+        return $query->where('role', 'dokter');
+    }
+
+    /**
+     * Scope a query to only include member users.
+     */
+    public function scopeMember($query)
+    {
+        return $query->where('role', 'member');
     }
 }

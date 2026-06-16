@@ -16,29 +16,44 @@
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="user_id" class="form-label fw-semibold">User (Dokter) <span class="text-danger">*</span></label>
-                    <select class="form-select" id="user_id" name="user_id" required>
+                    <select class="form-select @error('user_id') is-invalid @enderror" id="user_id" name="user_id" required>
                         <option value="">-- Pilih User Dokter --</option>
                         @foreach($dokterUsers as $user)
                             <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>{{ $user->name }} ({{ $user->email }})</option>
                         @endforeach
                     </select>
                     <small class="text-muted">Hanya user dengan role "dokter" yang belum punya profil</small>
+                    @error('user_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="specialization" class="form-label fw-semibold">Spesialisasi <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="specialization" name="specialization" value="{{ old('specialization') }}" required placeholder="contoh: Dokter Umum, Dokter Gigi">
+                    <input type="text" class="form-control @error('specialization') is-invalid @enderror" id="specialization" name="specialization" value="{{ old('specialization') }}" required placeholder="contoh: Dokter Umum, Dokter Gigi">
+                    @error('specialization')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="experience_years" class="form-label fw-semibold">Pengalaman (tahun) <span class="text-danger">*</span></label>
-                    <input type="number" class="form-control" id="experience_years" name="experience_years" value="{{ old('experience_years') }}" required min="0">
+                    <input type="number" class="form-control @error('experience_years') is-invalid @enderror" id="experience_years" name="experience_years" value="{{ old('experience_years') }}" required min="0">
+                    @error('experience_years')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="schedule" class="form-label fw-semibold">Jadwal Praktik</label>
-                    <input type="text" class="form-control" id="schedule" name="schedule" value="{{ old('schedule') }}" placeholder="contoh: Senin-Jumat: 08:00-16:00">
+                    <input type="text" class="form-control @error('schedule') is-invalid @enderror" id="schedule" name="schedule" value="{{ old('schedule') }}" placeholder="contoh: Senin-Jumat: 08:00-16:00">
+                    @error('schedule')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="col-md-12 mb-3">
                     <label for="bio" class="form-label fw-semibold">Bio / Deskripsi</label>
-                    <textarea class="form-control" id="bio" name="bio" rows="3">{{ old('bio') }}</textarea>
+                    <textarea class="form-control @error('bio') is-invalid @enderror" id="bio" name="bio" rows="3">{{ old('bio') }}</textarea>
+                    @error('bio')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
             <div class="d-flex gap-2 mt-2">

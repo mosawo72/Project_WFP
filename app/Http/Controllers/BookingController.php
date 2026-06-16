@@ -6,6 +6,7 @@ use App\Models\Booking;
 use App\Models\Doctor;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
@@ -14,7 +15,7 @@ class BookingController extends Controller
      */
     public function index()
     {
-        $bookings = Booking::with(['member', 'doctor.user'])->latest('booking_date')->get();
+        $bookings = Booking::with(['member', 'doctor.user'])->latest('booking_date')->paginate(15);
         return view('master.bookings.index', compact('bookings'));
     }
 
@@ -94,6 +95,8 @@ class BookingController extends Controller
      */
     public function destroy(Booking $booking)
     {
+        $this->authorize('delete-permission', Auth::user());
+
         $booking->delete();
         return redirect()->route('bookings.index')->with('success', 'Booking berhasil dihapus!');
     }

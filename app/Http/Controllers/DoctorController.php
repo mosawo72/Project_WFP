@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Doctor;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DoctorController extends Controller
 {
@@ -13,7 +14,7 @@ class DoctorController extends Controller
      */
     public function index()
     {
-        $doctors = Doctor::with('user')->get();
+        $doctors = Doctor::with('user')->paginate(15);
         return view('master.doctors.index', compact('doctors'));
     }
 
@@ -90,6 +91,8 @@ class DoctorController extends Controller
      */
     public function destroy(Doctor $doctor)
     {
+        $this->authorize('delete-permission', Auth::user());
+
         $doctor->delete();
         return redirect()->route('doctors.index')->with('success', 'Profil dokter berhasil dihapus!');
     }
